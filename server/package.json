@@ -1,0 +1,32 @@
+{
+  "name": "opsmind-ai",
+  "version": "1.0.0",
+  "description": "",
+  "homepage": "https://github.com/SKSHIVOMKUMAR/opsmind-ai#readme",
+  "bugs": {
+    "url": "https://github.com/SKSHIVOMKUMAR/opsmind-ai/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SKSHIVOMKUMAR/opsmind-ai.git"
+  },
+  "license": "ISC",
+  "author": "",
+  "type": "commonjs",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "nodemon index.js"
+  },
+  "dependencies": {
+    "cookie-parser": "^1.4.7",
+    "cors": "^2.8.6",
+    "dotenv": "^17.4.1",
+    "express": "^5.2.1",
+    "express-session": "^1.19.0",
+    "jsonwebtoken": "^9.0.3",
+    "mongoose": "^9.4.1",
+    "multer": "^2.1.1",
+    "nodemon": "^3.1.14"
+  }
+}
