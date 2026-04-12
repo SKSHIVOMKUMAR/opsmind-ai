@@ -583,3 +583,40 @@ Each chunk is stored as a document:
 ✔ PDF Parsing
 ✔ Text Chunking
 ✔ MongoDB Storage
+
+# 📄 OpsMind AI - (Embedding Generation)
+
+## 🚀 Overview
+This phase converts text chunks into vector embeddings, enabling AI-based semantic search (RAG system).
+
+---
+
+## 🔄 Flow
+
+PDF → Text → Chunks → Embeddings → MongoDB
+
+---
+
+## 🧠 How It Works
+
+1. Extract text from PDF  
+2. Split text into chunks  
+3. Generate embeddings for each chunk  
+4. Store embeddings in database  
+
+---
+
+## 📁 Key Files
+
+- `controllers/uploadController.js` → Handles upload & processing  
+- `services/embeddingService.js` → Generates embeddings  
+- `models/documentModel.js` → Stores data  
+
+---
+
+## ⚡ Embedding (Current Setup)
+
+```js
+const generateEmbedding = async (text) => {
+  return Array.from({ length: 384 }, () => Math.random());
+};
