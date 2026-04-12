@@ -87,7 +87,6 @@ An SOP Agent is an AI system that helps employees quickly find and understand co
 
 ### 🌟 Key Features:
 
-* Dynamic job listing rendering
 * Admin dashboard functionality
 * API-based architecture
 * Modular folder structure
@@ -279,6 +278,89 @@ npm run dev
   "dev": "vite"
 }
 ```
+
+# 📦 Dependencies Explanation
+
+This project uses the following dependencies to power the OpsMind AI system:
+
+---
+
+## 🧠 AI & Core Logic
+
+- **@google/generative-ai**  
+  → Used for Gemini API integration (LLM responses + embeddings generation)
+
+- **mathjs**  
+  → Handles mathematical operations (useful for vector similarity calculations)
+
+---
+
+## 🔐 Authentication & Security
+
+- **bcrypt**  
+  → Hashes passwords securely before storing in database
+
+- **jsonwebtoken**  
+  → Implements JWT-based authentication
+
+- **express-session**  
+  → Handles session-based authentication (optional)
+
+- **cookie-parser**  
+  → Parses cookies from incoming requests
+
+---
+
+## 🌐 Backend & Server
+
+- **express**  
+  → Core backend framework for building APIs
+
+- **cors**  
+  → Enables frontend-backend communication
+
+- **dotenv**  
+  → Manages environment variables securely
+
+---
+
+## 🗄️ Database
+
+- **mongoose**  
+  → MongoDB ODM for schema and database operations
+
+---
+
+## 📥 File Handling
+
+- **multer**  
+  → Handles file uploads (used for uploading PDFs)
+
+- **pdf-parse**  
+  → Extracts text content from uploaded PDF files
+
+---
+
+## ✅ Validation
+
+- **express-validator**  
+  → Validates user inputs and API request data
+
+---
+
+## 🆔 Utilities
+
+- **uuid**  
+  → Generates unique identifiers for documents, chunks, etc.
+
+---
+
+## ⚙️ Development Tool
+
+- **nodemon**  
+  → Automatically restarts server during development
+
+---
 
 ---
 
