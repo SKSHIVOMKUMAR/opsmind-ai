@@ -401,3 +401,185 @@ If the project is not working:
 * Verify API URLs
 
 ---
+
+## Development Progress Track
+
+# 🔄 Complete Flow
+
+```
+Postman / Client Request
+        ↓
+API Endpoint (/api/upload)
+        ↓
+Route Handling
+        ↓
+Multer Middleware (File Upload)
+        ↓
+Controller Logic
+        ↓
+PDF Parsing (Text Extraction)
+        ↓
+Chunking (Text Segmentation)
+        ↓
+MongoDB Storage
+        ↓
+Response Sent to Client
+```
+
+---
+
+# 🧠 Step-by-Step Explanation
+
+## 1. Client Request (Postman / Frontend)
+
+* Method: `POST`
+* Endpoint: `/api/upload`
+* Body: `form-data`
+
+  * Key: `file`
+  * Type: File (PDF)
+
+👉 User uploads a PDF file.
+
+---
+
+## 2. Route Layer
+
+📁 `routes/uploadRoutes.js`
+
+* Handles incoming request
+* Passes request through middleware
+* Calls controller function
+
+```js
+router.post("/upload", upload.single("file"), uploadPDF);
+```
+
+---
+
+## 3. Multer Middleware (File Upload)
+
+📁 `middlewares/uploadMiddleware.js`
+
+Responsibilities:
+
+* Accept only PDF files
+* Store file in `/uploads` directory
+* Generate unique filename
+
+👉 Output:
+
+* File saved locally
+* File info available in `req.file`
+
+---
+
+## 4. Controller Layer
+
+📁 `controllers/uploadController.js`
+
+Main processing happens here:
+
+### Steps:
+
+1. Validate file upload
+2. Read file from disk
+3. Parse PDF to extract text
+4. Generate chunks
+5. Store chunks in database
+6. Send response
+
+---
+
+## 5. PDF Parsing
+
+Library used: `pdf-parse`
+
+```js
+const pdfData = await pdfParse(dataBuffer);
+const text = pdfData.text;
+```
+
+👉 Converts PDF → Raw Text
+
+---
+
+## 6. Chunking Logic
+
+📁 `utils/chunker.js`
+
+* Splits large text into smaller parts
+* Helps in AI processing (RAG)
+
+```js
+chunkSize = 500
+overlap = 100
+```
+
+👉 Output:
+
+* Array of text chunks
+
+---
+
+## 7. Database Storage
+
+📁 `models/documentModel.js`
+
+Each chunk is stored as a document:
+
+```json
+{
+  "fileName": "sample.pdf",
+  "chunkText": "text content...",
+  "embedding": [],
+  "createdAt": "timestamp"
+}
+```
+
+👉 Note:
+
+* `embedding` will be used in next phase (AI vectors)
+
+---
+
+## 8. Response to Client
+
+```json
+{
+  "message": "PDF processed & stored",
+  "totalChunks": 25
+}
+```
+
+👉 Confirms successful processing
+
+---
+
+# ⚡ Key Concepts
+
+## ✅ Chunking
+
+* Breaks large text into smaller parts
+* Required for AI processing and RAG systems
+
+## ✅ PDF Parsing
+
+* Converts PDF into readable text
+
+## ✅ Middleware
+
+* Handles file upload before controller logic
+
+## ✅ Scalable Design
+
+* Each component is modular and reusable
+
+---
+
+# 🚀 Current Status
+
+✔ File Upload API
+✔ PDF Parsing
+✔ Text Chunking
+✔ MongoDB Storage
