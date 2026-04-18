@@ -1,7 +1,8 @@
 const Document = require("../models/documentModel");
 const { generateEmbedding } = require("../services/embeddingService");
+const { simpleAnswer } = require("../services/fallbackService");
 
-// 🔥 Cosine Similarity Function
+// 🔥 Cosine Similarity
 const cosineSimilarity = (a, b) => {
   if (!a.length || !b.length) return 0;
 
@@ -20,41 +21,43 @@ exports.queryDocs = async (req, res) => {
       return res.status(400).json({ error: "Query is required" });
     }
 
-    // ✅ 1. Convert query → embedding
+    // 1️⃣ Query → embedding
     const queryEmbedding = await generateEmbedding(query);
 
-    // ✅ 2. Fetch documents
-    const docs = await Document.find();
+    // 2️⃣ Get documents
+    const docs = await Document.find().limit(500);
 
     if (!docs.length) {
       return res.json({ answer: "No documents found" });
     }
 
-    // ✅ 3. Calculate similarity
+    // 3️⃣ Similarity scoring
     const scoredDocs = docs.map(doc => ({
       text: doc.chunkText,
+      fileName: doc.fileName,
       score: cosineSimilarity(queryEmbedding, doc.embedding)
     }));
 
-    // ✅ 4. Get top 3 relevant chunks
+    // 4️⃣ Top results
     const topDocs = scoredDocs
+      .filter(d => d.score > 0.3)
       .sort((a, b) => b.score - a.score)
       .slice(0, 3);
 
-    // ✅ 5. Create context
+    if (!topDocs.length) {
+      return res.json({ answer: "No relevant results found" });
+    }
+
+    // 5️⃣ Create context
     const context = topDocs.map(d => d.text).join("\n\n");
 
-    // 🔥 6. (TEMP AI RESPONSE — replace with Gemini next)
-    const answer = `
-Based on the document:
+    // 🔥 6️⃣ Smart fallback answer
+    const answer = simpleAnswer(context, query);
 
-${context.substring(0, 500)}...
-`;
-
-    // ✅ 7. Return response
+    // 7️⃣ Response
     res.json({
       answer,
-      topMatches: topDocs
+      sources: topDocs.map(d => d.fileName)
     });
 
   } catch (error) {
