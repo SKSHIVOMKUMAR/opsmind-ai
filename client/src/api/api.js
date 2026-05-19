@@ -1,7 +1,8 @@
 import axios from "axios";
 
 const API_BASE_URL =
-  "http://localhost:5000/api";
+  import.meta.env
+    .VITE_API_BASE_URL;
 
 const API = axios.create({
   baseURL: API_BASE_URL,
@@ -154,6 +155,15 @@ export const saveMessage = (
   return API.post(
     "/chat/save",
     data
+  );
+};
+
+// ✅ CLEAR CHAT
+export const clearChat = (
+  sessionId
+) => {
+  return API.delete(
+    `/chat/clear/${sessionId}`
   );
 };
 
