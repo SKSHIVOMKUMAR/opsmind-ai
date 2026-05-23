@@ -3,42 +3,62 @@ const path = require("path");
 const fs = require("fs");
 
 // ========================================
-// ENSURE UPLOADS FOLDER EXISTS
+// ABSOLUTE UPLOAD PATH
 // ========================================
 
-const uploadPath = path.join(__dirname, "../uploads");
+const uploadPath = path.resolve(
+  __dirname,
+  "../uploads"
+);
+
+// ========================================
+// CREATE FOLDER IF NOT EXISTS
+// ========================================
 
 if (!fs.existsSync(uploadPath)) {
-  fs.mkdirSync(uploadPath, { recursive: true });
+  fs.mkdirSync(uploadPath, {
+    recursive: true,
+  });
 }
 
 // ========================================
-// MULTER STORAGE
+// STORAGE CONFIG
 // ========================================
 
 const storage = multer.diskStorage({
-  destination: function (req, file, cb) {
+  destination: function (
+    req,
+    file,
+    cb
+  ) {
     cb(null, uploadPath);
   },
 
-  filename: function (req, file, cb) {
+  filename: function (
+    req,
+    file,
+    cb
+  ) {
     const uniqueName =
       Date.now() +
-      path.extname(file.originalname);
+      path.extname(
+        file.originalname
+      );
 
     cb(null, uniqueName);
   },
 });
 
 // ========================================
-// MULTER CONFIG
+// MULTER INSTANCE
 // ========================================
 
 const upload = multer({
   storage,
 
   limits: {
-    fileSize: 5 * 1024 * 1024,
+    fileSize:
+      5 * 1024 * 1024,
   },
 
   fileFilter: function (
