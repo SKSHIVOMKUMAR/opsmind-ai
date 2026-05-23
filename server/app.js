@@ -11,7 +11,8 @@ const authRoutes = require("./routes/authRoutes");
 
 app.use(
   cors({
-    origin: "*",
+    origin: process.env.FRONTEND_API_URL,
+    credentials: true,
     methods: ["GET", "POST", "PUT", "DELETE"],
   }),
 );

@@ -66,3 +66,35 @@ exports.saveMessage = async (req, res) => {
     });
   }
 };
+
+// ✅ CLEAR CHAT
+exports.clearChat = async (req, res) => {
+  try {
+
+    const { sessionId } = req.params;
+
+    if (!sessionId) {
+      return res.status(400).json({
+        error: "Session ID required",
+      });
+    }
+
+    await Chat.findOneAndUpdate(
+      { sessionId },
+      { messages: [] }
+    );
+
+    res.json({
+      success: true,
+      message: "Chat cleared successfully",
+    });
+
+  } catch (error) {
+
+    console.error(error);
+
+    res.status(500).json({
+      error: "Failed to clear chat",
+    });
+  }
+};
