@@ -6,6 +6,8 @@ import { getChat, saveMessage, clearChat } from "../api/api";
 
 import { cleanAnswer } from "../utils/cleanAnswer";
 
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
+
 export default function ChatBox() {
   const [messages, setMessages] = useState([]);
 
@@ -88,7 +90,7 @@ export default function ChatBox() {
     }
 
     try {
-      const response = await fetch("http://localhost:5000/api/query/stream", {
+      const response = await fetch(`${API_BASE_URL}/query/stream`, {
         method: "POST",
 
         headers: {
